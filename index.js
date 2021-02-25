@@ -1,8 +1,9 @@
 const game = document.querySelector('#game');
 const squareList = game.querySelectorAll('.square'); 
 const restartBtn = document.querySelector('button');
+const endGame = document.querySelector('#end-game');
 const counter = createCounter();
-let filledCount = 0;
+let clickLock = false;
 
 document.addEventListener('mousedown', event => {
     event.preventDefault();
@@ -13,6 +14,8 @@ restartBtn.addEventListener('click', event => {
 game.addEventListener('click', step)
 
 function step(event) {
+    if (clickLock) return;
+
     if (!event.target.classList.contains('square')) return;
 
     const square = event.target;
@@ -26,13 +29,6 @@ function step(event) {
         square.innerHTML = 'O';
         square.dataset.clicked = 'true';
     }
-    filledCount++;
-
-    if (filledCount > 8) {
-        setTimeout(() => {
-            restart();
-        }, 1000);
-    }
 
     if (compare(squareList, 0, 1, 2) || 
         compare(squareList, 3, 4, 5) ||
@@ -44,18 +40,27 @@ function step(event) {
         compare(squareList, 2, 5, 8)) {
 
         setTimeout(() => {
-            alert('Игра окончена!');
+            clickLock = true;
+            endGame.style.display = 'flex';
 
-            restart();
+            setTimeout(() => {
+                document.addEventListener('click', hidden);
+            }, 1000);
         })
 
     }
+}
+
+function hidden() {
+    endGame.style.display = 'none';
+    document.removeEventListener('click', hidden)
 }
 
 function restart() {
     cleanInnerElements(squareList);
     counter.clear();
     filledCount = 0;
+    clickLock = false;
 }
 
 function createCounter() {
