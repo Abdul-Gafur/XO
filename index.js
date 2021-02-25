@@ -2,6 +2,7 @@ const game = document.querySelector('#game');
 const squareList = game.querySelectorAll('.square'); 
 const restartBtn = document.querySelector('button');
 const counter = createCounter();
+let filledCount = 0;
 
 document.addEventListener('mousedown', event => {
     event.preventDefault();
@@ -25,6 +26,13 @@ function step(event) {
         square.innerHTML = 'O';
         square.dataset.clicked = 'true';
     }
+    filledCount++;
+
+    if (filledCount > 8) {
+        setTimeout(() => {
+            restart();
+        }, 1000);
+    }
 
     if (compare(squareList, 0, 1, 2) || 
         compare(squareList, 3, 4, 5) ||
@@ -38,15 +46,16 @@ function step(event) {
         setTimeout(() => {
             alert('Игра окончена!');
 
-            restart(squareList);
+            restart();
         })
 
     }
 }
 
-function restart(elementList) {
-    cleanInnerElements(elementList);
+function restart() {
+    cleanInnerElements(squareList);
     counter.clear();
+    filledCount = 0;
 }
 
 function createCounter() {
