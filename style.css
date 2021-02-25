@@ -8,7 +8,6 @@ body {
     width: 100vw;
     display: flex;
     align-items: center;
-    padding: 5px;
     background: linear-gradient(#e67104, #ffff00);
 }
 .container {
@@ -58,4 +57,31 @@ button {
 
 button:hover {
     background-color: antiquewhite;
+}
+
+.end-game__txt {
+    display: inline-block;
+    font-size: 100px;
+    margin: 0 auto;
+}
+
+.banner {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    background-color: #37aecc;
+    z-index: 100;
+    opacity: .6;
+    animation: show 1s linear;
+}
+
+@keyframes show {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: .6;
+    }
 }
